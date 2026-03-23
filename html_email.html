@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Track & Trace - AbbVie</title>
+
+<style>
+    :root{
+        --amarelo: #FFCC00;
+        --cinza-escuro: #666;
+        --vermelho: #D40511;
+        --preto: #000000;
+        --verde: #009900;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #ffffff;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    .header-wrap {
+        background: linear-gradient(to bottom, var(--amarelo) 0%, #fff 75%);
+        padding: 12px 0;
+    }
+
+    .header {
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .track-svg {
+        width: 230px;
+        max-width: 100%;
+    }
+
+    .subtitle {
+        margin-top: -4px;
+        font-size: 14px;
+        color: var(--vermelho);
+        font-weight: bold;
+    }
+
+    .content {
+        padding: 0 40px;
+        font-size: 16px;
+    }
+
+    /* =====================================================
+       LINHA DO TEMPO (ABAIXO DO TEXTO INICIAL)
+       ===================================================== */
+    .timeline-container {
+        padding: 20px 0 10px;
+    }
+
+    .timeline {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        margin: 20px 0 5px;
+    }
+
+    .timeline::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: #ddd;
+        transform: translateY(-50%);
+        border-radius: 4px;
+    }
+
+    .timeline-step {
+        position: relative;
+        background: #fff;
+        z-index: 10;
+        text-align: center;
+        width: 25%;
+        font-size: 12px;
+        color: #555;
+    }
+
+    .timeline-circle {
+        width: 18px;
+        height: 18px;
+        background: #bbb;
+        border-radius: 50%;
+        margin: 0 auto 4px;
+    }
+
+    .completed .timeline-circle {
+        background: var(--vermelho);
+    }
+
+    .completed {
+        color: var(--vermelho);
+        font-weight: bold;
+    }
+
+    .timeline-date {
+        font-size: 11px;
+        margin-top: 2px;
+        color: #777;
+    }
+
+    /* STATUS ATUAL */
+    .status-atual-box {
+        background: #fff4cc;
+        border-left: 5px solid var(--vermelho);
+        padding: 15px 20px;
+        margin: 25px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* PREVISÃO ENTREGA (VERDE) */
+    .previsao-entrega-box {
+        background: #e8ffe8;
+        border-left: 5px solid #009900;
+        padding: 15px 20px;
+        margin: 25px 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: #006600;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+        font-size: 15px;
+    }
+
+    table th {
+        background: var(--cinza-escuro);
+        color: #fff;
+        padding: 8px;
+        text-align: left;
+    }
+
+    table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+
+    /* =====================================================
+       CAMINHÃO ANIMADO NA ESTRADA
+       ===================================================== */
+    .truck-road-container {
+        width: 100%;
+        overflow: hidden;
+        margin-top: 50px;
+        position: relative;
+        height: 120px;
+    }
+
+    .road {
+        width: 200%;
+        height: 40px;
+        background: #444;
+        position: absolute;
+        bottom: 0;
+        animation: roadMove 4s linear infinite;
+    }
+
+    .road::before {
+        content: "";
+        position: absolute;
+        top: 18px;
+        width: 200%;
+        height: 4px;
+        left: 0;
+        background: repeating-linear-gradient(
+            to right,
+            #fff 0 40px,
+            transparent 40px 80px
+        );
+    }
+
+    .truck {
+        position: absolute;
+        bottom: 40px;
+        left: -150px;
+        width: 140px;
+        animation: truckDrive 6s linear infinite;
+    }
+
+    @keyframes truckDrive {
+        0% { left: -160px; }
+        100% { left: 110%; }
+    }
+
+    @keyframes roadMove {
+        0% { left: 0; }
+        100% { left: -100%; }
+    }
+
+    /* FOOTER */
+    .footer-wrap {
+        background: linear-gradient(to top, var(--amarelo) 0%, #fff 70%);
+        margin-top: 50px;
+    }
+
+    .footer {
+        padding: 20px 40px;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .logos-footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        align-items: center;
+    }
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header-wrap">
+    <div class="header">
+
+        <div>
+            <svg class="track-svg" viewBox="0 0 400 60" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="42"
+                      font-family="Arial, Helvetica, sans-serif"
+                      font-size="40"
+                      font-weight="900"
+                      fill="#D40511"
+                      letter-spacing="2">
+                    TRACK & TRACE
+                </text>
+            </svg>
+
+            <div class="subtitle">MY SUPPLYCHAIN</div>
+        </div>
+
+        <img src="https://raw.githubusercontent.com/fhernandodhl/img/main/abbvie-logo-header.svg"
+             alt="Logo AbbVie" height="20">
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+    <h2>OLÁ CLIENTE!</h2>
+
+    <p>
+        Foi gerada uma nova atualização de status de transportes para sua 
+        <span class="highlight">Nota Fiscal 153066</span> referente ao 
+        <span class="highlight">pedido AG PREFVOLTAREDONDA</span>:
+    </p>
+
+    <p>
+        <strong>Destinatário:</strong> Hospinova Distrib De Prod Hosp Ltda<br>
+        <strong>CNPJ:</strong> 12.499.494/0002-60
+    </p>
+
+    <!-- ✅ LINHA DO TEMPO -->
+    <div class="timeline-container">
+        <div class="timeline">
+
+            <div class="timeline-step completed">
+                <div class="timeline-circle"></div>
+                Coleta
+                <div class="timeline-date">10/03/2026</div>
+            </div>
+
+            <div class="timeline-step completed">
+                <div class="timeline-circle"></div>
+                Em trânsito
+                <div class="timeline-date">11/03/2026</div>
+            </div>
+
+            <div class="timeline-step completed">
+                <div class="timeline-circle"></div>
+                Na base de entrega
+                <div class="timeline-date">13/03/2026</div>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-circle"></div>
+                Entregue
+                <div class="timeline-date">—</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ✅ STATUS ATUAL -->
+    <div class="status-atual-box">
+        STATUS ATUAL: Produto na base de entrega (13/03/2026)
+    </div>
+
+    <!-- ✅ PREVISÃO DE ENTREGA (VERDE) -->
+    <div class="previsao-entrega-box">
+        PREVISÃO ENTREGA: 15/03/2026
+    </div>
+
+    <!-- ✅ PRIMEIRA TABELA -->
+    <table>
+        <thead>
+            <tr>
+                <th>PRODUTO</th>
+                <th>QTDE</th>
+                <th>LOTE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ALPHAGAN Z SOL.OFT. 5ML</td>
+                <td>8</td>
+                <td>1312232</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ✅ SUBSTATUS DETALHADO -->
+    <h2 style="margin-top:40px;">Substatus detalhado</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Etapa</th>
+                <th>Descrição</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Coleta</td>
+                <td>Material coletado na origem</td>
+                <td>10/03/2026</td>
+            </tr>
+            <tr>
+                <td>Em trânsito</td>
+                <td>Carga em deslocamento para base regional</td>
+                <td>11/03/2026</td>
+            </tr>
+            <tr>
+                <td>Em trânsito</td>
+                <td>Carga em deslocamento para base secundária</td>
+                <td>12/03/2026</td>
+            </tr>
+            <tr>
+                <td>Na base de entrega</td>
+                <td>Material recebido para roteirização</td>
+                <td>13/03/2026</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 style="margin-top:40px;">É SEMPRE UM PRAZER ATENDÊ-LO!!!</h2>
+
+</div>
+
+<!-- ✅ CAMINHÃO ANIMADO NA ESTRADA -->
+<div class="truck-road-container">
+    <img class="truck" src="https://raw.githubusercontent.com/fhernandodhl/img/main/caminhao.svg" alt="Caminhão DHL">
+    <div class="road"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+    <div class="footer">
+        Este é um e-mail automático e não será respondido. Contém informações confidenciais da DHL.
+        <br><br>
+
+        <div class="logos-footer">
+            C:\Users\lmagiabe\OneDrive - DPDHL\Track & Trace\dhl_health_logistics.png
+            C:\Users\lmagiabe\OneDrive - DPDHL\Track & Trace\we_care.svg
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
